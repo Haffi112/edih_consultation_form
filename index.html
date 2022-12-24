@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Consultation Form</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Custom styles for the form */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+    }
+    button {
+      background-color: #10099f;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+        // https://dashboard.emailjs.com/admin/account
+        emailjs.init('LR-ayQK9jSekY7GHl');
+    })();
+  </script>
+  <script type="text/javascript">
+      window.onload = function() {
+          document.getElementById('consultation-form').addEventListener('submit', function(event) {
+              event.preventDefault();
+              // these IDs from the previous steps
+              emailjs.sendForm("edih_service","edih_template", this)
+                  .then(function() {
+                      console.log('SUCCESS!');
+                  }, function(error) {
+                      console.log('FAILED...', error);
+                  });
+          });
+      }
+  </script>
+</head>
+<body class="bg-white text-262626">
+  <div style="height: 1rem;"></div>
+  <form id="consultation-form" class="mx-auto max-w-lg">
+    <h2 class="text-2xl font-bold mb-4">Introduction</h2>
+    <div class="form-group">
+      <label for="author-name">What is your full name?</label>
+      <input type="text" id="author-name" name="author-name">
+    </div>
+    <div class="form-group">
+      <label for="author-email">What is your email?</label>
+      <input type="text" id="author-email" name="author-email">
+    </div>
+    <div class="form-group">
+      <label for="project-about">What is the project about?</label>
+      <textarea id="project-about" name="project-about" class="form-input border border-gray-300 rounded-md" rows="4" style="width: 100%;"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="pain">What needs/pain is it addressing?</label>
+      <textarea id="pain" name="pain" class="form-input border border-gray-300 rounded-md" rows="4" style="width: 100%;"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="status">What is the status of the project?</label>
+      <textarea id="status" name="status" class="form-input border border-gray-300 rounded-md" rows="4" style="width: 100%;"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="players">Who are the players?</label>
+      <textarea id="players" name="players" class="form-input border border-gray-300 rounded-md" rows="4" style="width: 100%;"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="needs">What does the project need, and how can EDIH help?</label>
+      <textarea id="needs" name="needs" class="form-input border border-gray-300 rounded-md" rows="4" style="width: 100%;"></textarea>
+    </div>
+    <!-- Other form fields -->
+    <h2 class="text-2xl font-bold mb-4 mt-8">Consultation</h2>
+    <div class="form-group">
+      <label for="consultation-type">What type of consulting do you need?</label>
+      <select id="consultation-type" name="consultation-type" class="form-input">
+        <option value="business-development">Business development</option>
+        <option value="legal-advice">Legal advice</option>
+        <option value="networking">Networking</option>
+        <option value="financing">Financing</option>
+        <option value="cybersecurity-considerations">Cybersecurity considerations</option>
+        <option value="ai-hpc">Help using AI/HPC</option>
+      </select>
+    </div>
+    <!-- Additional fields for AI/HPC option -->
+    <div id="ai-hpc-questions" class="hidden mt-4">
+      <h2 class="text-2xl font-bold mb-4 mt-8">Further questions</h2>
+      <div class="form-group">
+        <label for="problem-solving">Are you using the right approach to problem-solving?</label>
+        <textarea id="problem-solving" name="problem-solving" class="form-input border border-gray-300 rounded-md" rows="4" style="width: 100%;"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="ai-speed-up">Can you make use of AI to speed up development?</label>
+        <textarea id="ai-speed-up" name="ai-speed-up" class="form-input border border-gray-300 rounded-md" rows="4" style="width: 100%;"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="infrastructure-choice">What are the implications of your infrastructure choice?</label>
+        <textarea id="infrastructure-choice" name="infrastructure-choice" class="form-input border border-gray-300 rounded-md" rows="4" style="width: 100%;"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="cybersecurity-solution">What are the cybersecurity aspects of your solution?</label>
+        <textarea id="cybersecurity-solution" name="cybersecurity-solution" class="form-input border border-gray-300 rounded-md" rows="4" style="width: 100%;"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="ai-model">What AI model are you considering?</label>
+        <textarea id="ai-model" name="ai-model" class="form-input border border-gray-300 rounded-md" rows="4" style="width: 100%;"></textarea>
+      </div>
+    </div>    
+    <button type="submit" class="btn">Submit</button>
+  </form>
+  <script>
+    const form = document.querySelector("#consultation-form");
+    const consultationType = document.querySelector("#consultation-type");
+    const aiHpcFields = document.querySelector("#ai-hpc-questions");
+
+    // Show additional fields for AI/HPC option
+    consultationType.addEventListener("change", event => {
+      if (event.target.value === "ai-hpc") {
+        aiHpcFields.style.display = "block";
+      } else {
+        aiHpcFields.style.display = "none";
+      }
+    });
+</script>
